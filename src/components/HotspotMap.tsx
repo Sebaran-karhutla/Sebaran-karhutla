@@ -97,10 +97,11 @@ export function HotspotMap({
       maxZoom: 15,
       preferCanvas: true,
       zoomControl: false,
-      attributionControl: false,
+      attributionControl: true,
     });
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
+    map.attributionControl.setPrefix(false);
 
     const geoLayer = L.geoJSON(getIndonesiaRegionGeoJSON(), {
       style: (feature) => {
@@ -178,12 +179,13 @@ export function HotspotMap({
 
     if (baseMode === 'tiles') {
       const tileUrl = isDark
-        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+        : 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+      // Carto basemap sekarang butuh API key di domain online -> pakai Esri Canvas (gratis, wajib atribusi)
 
       const tl = L.tileLayer(tileUrl, {
-        subdomains: 'abcd',
-        maxZoom: 18,
+        maxZoom: 16,
+        attribution: 'Peta dasar &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
       });
       tl.addTo(map);
       tl.bringToBack();
