@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  BarChart3,
   Download,
   FileSpreadsheet,
   Flame,
@@ -36,6 +37,7 @@ import { RegionalAnalysisView } from './components/RegionalAnalysisView';
 import { HotspotTableView } from './components/HotspotTableView';
 import { SourceDocumentView } from './components/SourceDocumentView';
 import { HotspotDetailDrawer } from './components/HotspotDetailDrawer';
+import { LuasKarhutlaView } from './components/LuasKarhutlaView';
 
 const ALL_HOTSPOTS = rawHotspots as HotspotRecord[];
 const ALL_SUMMARY = rawSummary as SummaryRecord[];
@@ -44,6 +46,7 @@ const NAV_ITEMS: Array<{ id: DashboardView; label: string; icon: typeof LayoutDa
   { id: 'overview', label: 'Ringkasan & Peta', icon: LayoutDashboard },
   { id: 'regional', label: 'Analisis Wilayah', icon: MapIcon },
   { id: 'table', label: 'Log Titik Panas', icon: Table2 },
+  { id: 'luas', label: 'Luas 2023 vs 2026', icon: BarChart3 },
   { id: 'source', label: 'Rekap & PDF Asli', icon: FileSpreadsheet },
 ];
 
@@ -277,7 +280,7 @@ export default function App() {
         {/* Main Workspace Viewport */}
         <main className="flex-1 p-4 sm:p-6 max-w-[1440px] w-full mx-auto space-y-5">
           {/* Persistent Filter Toolbar */}
-          {view !== 'source' && (
+          {view !== 'source' && view !== 'luas' && (
             <section
               aria-label="Filter Data Karhutla"
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-3"
@@ -580,6 +583,9 @@ export default function App() {
               onSelectHotspot={setSelectedHotspot}
             />
           )}
+
+          {/* VIEW 5: PERBANDINGAN LUAS KARHUTLA 2023 vs 2026 */}
+          {view === 'luas' && <LuasKarhutlaView />}
 
           {/* VIEW 4: SOURCE SUMMARY & PDF */}
           {view === 'source' && (
