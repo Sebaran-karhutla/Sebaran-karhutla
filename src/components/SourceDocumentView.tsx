@@ -8,7 +8,7 @@ interface SourceDocumentViewProps {
   onFocusKabKota: (provinsi: string, kabKota: string) => void;
 }
 
-const PDF_PATH = '/assets/aistudio/sebaran-hotspot_801db754.pdf';
+const PDF_PATH = `${import.meta.env.BASE_URL}assets/aistudio/sebaran-hotspot_801db754.pdf`;
 
 export function SourceDocumentView({
   summaryRecords,
