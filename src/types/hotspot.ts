@@ -1,6 +1,6 @@
 export type SatelliteType = 'NASA-NOAA21' | 'NASA-NOAA20' | 'NASA-MODIS';
 export type ConfidenceLevel = 'High' | 'Medium' | 'Low';
-export type DashboardView = 'overview' | 'regional' | 'table' | 'source';
+export type DashboardView = 'overview' | 'regional' | 'table' | 'source' | 'luas';
 
 export interface HotspotRecord {
   id: number;
