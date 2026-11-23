@@ -6,6 +6,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Alamat relatif supaya jalan di GitHub Pages (https://<org>.github.io/<repo>/)
+    base: './',
     plugins: [
       react(),
       tailwindcss(),
