@@ -107,9 +107,11 @@ export function LuasKarhutlaView() {
       `Tahun ${yr(0)} paling parah di ${topOf(0).provinsi} (${fmtHa(topOf(0).ha[0])} ha). Tiga provinsi teratas (${top3.map((r) => r.provinsi).join(', ')}) menyumbang ${top3Share.toLocaleString('id-ID', { maximumFractionDigits: 0 })}% luas nasional.`,
       `Provinsi terluas berganti-ganti: ${LUAS_YEARS.map((y, i) => `${y} ${topOf(i).provinsi}`).join(' · ')}.`,
     ];
-    if (ntt && topOf(1).provinsi === ntt.provinsi)
+    const top10 = [...LUAS_KARHUTLA].sort((x, y) => y.ha[0] - x.ha[0]).slice(0, 10);
+    const naik10 = top10.filter((r) => r.ha[1] > r.ha[0]);
+    if (naik10.length === 1)
       list.push(
-        `Nusa Tenggara Timur satu-satunya provinsi besar yang naik di ${yr(1)} (${fmtHa(ntt.ha[0])} → ${fmtHa(ntt.ha[1])} ha) saat provinsi lain turun.`
+        `${naik10[0].provinsi} satu-satunya dari 10 provinsi terluas ${yr(0)} yang justru naik di ${yr(1)} (${fmtHa(naik10[0].ha[0])} → ${fmtHa(naik10[0].ha[1])} ha).`
       );
     return list;
   }, [totals]);
