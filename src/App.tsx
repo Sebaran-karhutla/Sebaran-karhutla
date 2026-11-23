@@ -46,7 +46,7 @@ const NAV_ITEMS: Array<{ id: DashboardView; label: string; icon: typeof LayoutDa
   { id: 'overview', label: 'Ringkasan & Peta', icon: LayoutDashboard },
   { id: 'regional', label: 'Analisis Wilayah', icon: MapIcon },
   { id: 'table', label: 'Log Titik Panas', icon: Table2 },
-  { id: 'luas', label: 'Luas 2023 vs 2026', icon: BarChart3 },
+  { id: 'luas', label: 'Luas 2023–2026', icon: BarChart3 },
   { id: 'source', label: 'Rekap & PDF Asli', icon: FileSpreadsheet },
 ];
 
@@ -584,7 +584,7 @@ export default function App() {
             />
           )}
 
-          {/* VIEW 5: PERBANDINGAN LUAS KARHUTLA 2023 vs 2026 */}
+          {/* VIEW 5: PERBANDINGAN LUAS KARHUTLA 2023–2026 */}
           {view === 'luas' && <LuasKarhutlaView />}
 
           {/* VIEW 4: SOURCE SUMMARY & PDF */}
