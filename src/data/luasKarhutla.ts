@@ -6,6 +6,16 @@
 export const LUAS_YEARS = [2023, 2024, 2025, 2026] as const;
 export type LuasYear = (typeof LUAS_YEARS)[number];
 
+/**
+ * Periode yang dicakup tiap kolom (hasil pencocokan dengan angka resmi SiPongi):
+ * - 2023 = 1.161.192,93 ha setahun penuh (sama dengan total resmi 2023)
+ * - 2024 = 376.805 ha setahun penuh (sama dengan total resmi 2024)
+ * - 2025 = 12.226,72 ha → TIDAK cocok dengan total resmi 2025 (359.619 ha), jadi kemungkinan baru sebagian tahun
+ * - 2026 = 202.010,96 ha → hampir sama dengan SiPongi Januari–Juli 2026 (202.004,30 ha)
+ */
+export const LUAS_PERIOD: [string, string, string, string] = ['Jan–Des', 'Jan–Des', 'sebagian tahun*', 'Jan–Jul'];
+export const LUAS_FULL_YEAR: [boolean, boolean, boolean, boolean] = [true, true, false, false];
+
 export interface LuasKarhutlaRecord {
   kode: string;
   provinsi: string;
