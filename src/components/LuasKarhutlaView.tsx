@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
 import { ArrowDownRight, ArrowUpRight, Info } from 'lucide-react';
-import { LUAS_KARHUTLA, LUAS_YEARS, type LuasKarhutlaRecord } from '../data/luasKarhutla';
+import {
+  LUAS_FULL_YEAR,
+  LUAS_KARHUTLA,
+  LUAS_PERIOD,
+  LUAS_YEARS,
+  type LuasKarhutlaRecord,
+} from '../data/luasKarhutla';
+import { NarasiKarhutla, PeriodeWarning } from './NarasiKarhutla';
 
 // ---------------------------------------------------------------------------
 // Perbandingan luas karhutla per provinsi, 4 tahun (2023–2026), hektare
@@ -99,11 +106,9 @@ export function LuasKarhutlaView() {
     const topOf = (i: number) => [...LUAS_KARHUTLA].sort((x, y) => y.ha[i] - x.ha[i])[0];
     const top3 = [...LUAS_KARHUTLA].sort((x, y) => y.ha[0] - x.ha[0]).slice(0, 3);
     const top3Share = (top3.reduce((s, r) => s + r.ha[0], 0) / totals[0]) * 100;
-    const rebound = totals[LAST] / Math.max(1, totals[LAST - 1]);
-    const ntt = LUAS_KARHUTLA.find((r) => r.provinsi === 'Nusa Tenggara Timur');
     const list = [
-      `Puncaknya tahun ${yr(peak)} (${fmtHa(totals[peak])} ha), terendah tahun ${yr(low)} (${fmtHa(totals[low])} ha).`,
-      `Polanya turun tajam ${yr(0)} → ${yr(2)}, lalu naik lagi di ${yr(LAST)}: ${fmtHa(totals[LAST])} ha, sekitar ${rebound.toLocaleString('id-ID', { maximumFractionDigits: 0 })} kali lipat dari ${yr(LAST - 1)}, tapi masih ${fmtPct(pct(totals[0], totals[LAST]))} dibanding ${yr(0)}.`,
+      `Di antara dua tahun yang datanya setahun penuh, ${yr(0)} (${fmtHa(totals[0])} ha) jauh lebih luas dari ${yr(1)} (${fmtHa(totals[1])} ha), turun ${fmtPct(pct(totals[0], totals[1]))}.`,
+      `Angka ${yr(2)} (${fmtHa(totals[2])} ha) dan ${yr(LAST)} (${fmtHa(totals[LAST])} ha) belum setahun penuh, jadi jangan dibandingkan langsung dengan ${yr(0)}–${yr(1)}. Puncak tercatat: ${yr(peak)}; terendah tercatat: ${yr(low)}.`,
       `Tahun ${yr(0)} paling parah di ${topOf(0).provinsi} (${fmtHa(topOf(0).ha[0])} ha). Tiga provinsi teratas (${top3.map((r) => r.provinsi).join(', ')}) menyumbang ${top3Share.toLocaleString('id-ID', { maximumFractionDigits: 0 })}% luas nasional.`,
       `Provinsi terluas berganti-ganti: ${LUAS_YEARS.map((y, i) => `${y} ${topOf(i).provinsi}`).join(' · ')}.`,
     ];
@@ -156,10 +161,22 @@ export function LuasKarhutlaView() {
               >
                 {p === null ? 'tahun dasar' : `${fmtPct(p)} dari ${LUAS_YEARS[i - 1]}`}
               </div>
+              <div
+                className={`mt-1.5 inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                  LUAS_FULL_YEAR[i]
+                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                    : 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
+                }`}
+              >
+                Periode: {LUAS_PERIOD[i]}
+              </div>
             </div>
           );
         })}
       </section>
+
+      <PeriodeWarning />
+      <NarasiKarhutla />
 
       {/* Tren nasional */}
       <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5">
@@ -176,6 +193,11 @@ export function LuasKarhutlaView() {
                 style={{ height: `${Math.max(1.5, (totals[i] / maxTotal) * 85)}%` }}
               />
               <span className="mt-2 text-xs font-semibold text-slate-700 dark:text-slate-300">{y}</span>
+              <span
+                className={`text-[10px] ${LUAS_FULL_YEAR[i] ? 'text-slate-400' : 'text-amber-600 dark:text-amber-400 font-semibold'}`}
+              >
+                {LUAS_PERIOD[i]}
+              </span>
             </div>
           ))}
         </div>
